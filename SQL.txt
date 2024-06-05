@@ -1,0 +1,37 @@
+BACKUP DATABASE BudZdorov2 TO DISK='C:\Users\storm\OneDrive\Desktop\Sandalov\Backup225.bac' WITH FORMAT, NAME='BACKUP';
+
+USE [BudZdorov2]
+GO
+/****** Object:  StoredProcedure [dbo].[IsDataValid]    Script Date: 06.06.2024 2:22:19 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER Procedure [dbo].[IsDataValid]
+AS
+BEGIN
+SET NOCOUNT ON;
+SELECT FoodRecords.food_record_id, ISDATE(FoodRecords.date_time) AS 'Данные валидны?'
+FROM FoodRecords;
+BEGIN SET NOCOUnt ON;
+SELECT TrainRecords.train_record_id, ISDATE(TrainRecords.date_time) AS 'Данные валидны?'
+FROM TrainRecords;
+end
+END;
+
+USE [BudZdorov2]
+GO
+/****** Object:  Trigger [dbo].[GiveTestAuthData2]    Script Date: 06.06.2024 2:22:54 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER TRIGGER [dbo].[GiveTestAuthData2]
+ON [dbo].[Users]
+AFTER INSERT
+AS
+BEGIN
+INSERT INTO AuthDatas VALUES ('testlog','testpas')
+UPDATE Users SET auth_data_id = IDENT_CURRENT('AuthDatas')
+WHERE user_id = IDENT_CURRENT('Users')
+END;

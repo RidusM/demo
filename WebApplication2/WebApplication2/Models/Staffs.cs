@@ -1,0 +1,9 @@
+﻿using WebApplication2.Data;
+namespace WebApplication2.Models
+{
+    public class Staffs
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+}
